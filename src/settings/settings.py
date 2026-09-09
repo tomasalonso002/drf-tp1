@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'libros',
+    'usuarios',
+    'rutina',
 ]
 
 MIDDLEWARE = [
@@ -99,6 +100,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+#Esto es para el modificar el usuario personalizado
+AUTH_USER_MODEL ='usuarios.UsuarioPersonalizado'
 
 
 # Internationalization
