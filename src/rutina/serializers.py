@@ -29,7 +29,7 @@ class RutinaPOSTSerializers(serializers.ModelSerializer):
         ]
         read_only_fields=['id','is_active', 'fecha_at']
 
-class RutinaPerosnalizadaPOSTSerializer(serializers.ModelSerializer):
+class RutinaPersonalizadaPOSTSerializer(serializers.ModelSerializer):
     class Meta:
         model = RutinaPersonalizada
         fields =[

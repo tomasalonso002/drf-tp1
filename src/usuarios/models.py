@@ -9,6 +9,7 @@ class UsuarioPersonalizado(AbstractUser):
     telefono = models.CharField(max_length=20, null= True, blank=True)
     dni = models.CharField(null=True, blank=True)
     fecha_nacimiento = models.DateField(null=True, blank=True)
+    rol= models.CharField(max_length=25, null=True, blank=True)
     def __str__(self):
         return f'{self.username} - {self.dni}'
     

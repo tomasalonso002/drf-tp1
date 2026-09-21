@@ -1,44 +1,46 @@
-from rest_framework import status
-from rest_framework import generics
+from rest_framework import status, viewsets, generics
+from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.contrib.auth.models import Group
 from django.utils import timezone
 
+from django.contrib.auth.models import Group
 
+from .permissions import PermissionsJefe, PermissionAlumno, PermissionEmpleado
 from .models import UsuarioPersonalizado
 from .serializers import UsuarioPublicSerializer,UsuarioSerializer
 # Create your views here.
 
+
 #Admin
 
+#Crear Empleados
+class UserEmpleadoViewSets(viewsets.ModelViewSet):
+    queryset = UsuarioPersonalizado.objects.filter(is_active=True)
+    serializer_class = UsuarioPublicSerializer
+    permission_classes=[PermissionsJefe]
 
-class UserListCreateView(generics.ListCreateAPIView):
-    queryset= UsuarioPersonalizado.objects.filter(is_active=True)
-    serializer_class = UsuarioSerializer
-
-
-class UserRetrivUpdateView(generics.RetrieveUpdateAPIView):
-    queryset=UsuarioPersonalizado.objects.all()
-    serializer_class= UsuarioPublicSerializer
-
-
-class UsuarioSoftDeleteView(generics.DestroyAPIView):
-    queryset=UsuarioPersonalizado.objects.filter(is_active=True)
-    serializer_class = UsuarioPersonalizado
-
-    def destroy(self, request, *args,**kwargs):
-        instance = self.get_object()
-        
+   
+    @action(detail=True, methods=['post'])
+    def eliminado_logico(self, request, pk=None):
+        usuario = self.get_object()
         timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
-        instance.is_active = False
-        instance.username = f'eliminado-{instance.username}-{timestamp}',
-        instance.email = f'eliminado-{instance.email}-{timestamp}'
-        instance.dni = f'eliminado-{instance.dni}-{timestamp}'
-
-        instance.save()
+        usuario.is_active = False
+        usuario.username = f'eliminado-{usuario.username}-{timestamp}'
+        usuario.email = f'eliminado-{usuario.email}-{timestamp}'
+        usuario.dni = f'eliminado-{usuario.dni}-{timestamp}'
+        usuario.save()
         return Response(
-            {'detail': 'El usuario se elimino correctamente'},
-            status=status.HTTP_200_OK
-        )
+                    {'detail': 'El usuario se elimino correctamente'},
+                    status=status.HTTP_200_OK
+                )
+#GET Empleados
+class UserEmpleadoGetViewSets(viewsets.ReadOnlyModelViewSet):
+    queryset = UsuarioPersonalizado.objects.filter(is_active = True, groups__name = 'Empleado' )
+    serializer_class = UsuarioPublicSerializer
+
+
+
 
 #Employee
 
