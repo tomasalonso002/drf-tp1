@@ -53,4 +53,7 @@ class UserJefeGetViewSets(viewsets.ReadOnlyModelViewSet):
     permission_classes=[PermissionsJefe]
 
 
+    
+
+
 

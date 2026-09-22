@@ -43,7 +43,7 @@ class RutinaPersonalizadaPOSTSerializer(serializers.ModelSerializer):
         ]
         read_only_fields=['id','fecha_at','is_active']
 
-class RutinaPerosnalizadaGETSerializer(serializers.ModelSerializer):
+class RutinaPersonalizadaGETSerializer(serializers.ModelSerializer):
     alumno = UsuarioPublicSerializer(read_only=True)
     usuario_activo = UsuarioPublicSerializer(read_only=True)
     class Meta:

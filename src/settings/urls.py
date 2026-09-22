@@ -16,8 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rutina.routers import router
-from usuarios.routers import router
+from rutina.routers import router as router_rutina
+from usuarios.routers import router as router_usuario
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [         
@@ -26,6 +26,6 @@ urlpatterns = [
 
 
     path('admin/', admin.site.urls),
-    path('usuarios/', include(router.urls)),
-    path('rutina/', include(router.urls)),
+    path('usuarios/', include(router_usuario.urls)),
+    path('rutina/', include(router_rutina.urls)),
 ]
