@@ -14,10 +14,10 @@ from .serializers import UsuarioPublicSerializer,UsuarioSerializer
 
 #Admin
 
-#Crear Empleados
-class UserEmpleadoViewSets(viewsets.ModelViewSet):
+#Create User
+class UserViewSets(viewsets.ModelViewSet):
     queryset = UsuarioPersonalizado.objects.filter(is_active=True)
-    serializer_class = UsuarioPublicSerializer
+    serializer_class = UsuarioSerializer
     permission_classes=[PermissionsJefe]
 
    
@@ -34,16 +34,23 @@ class UserEmpleadoViewSets(viewsets.ModelViewSet):
                     {'detail': 'El usuario se elimino correctamente'},
                     status=status.HTTP_200_OK
                 )
-#GET Empleados
+#GET Alumno
+class UserAlumnoGetViewSets(viewsets.ReadOnlyModelViewSet):
+    queryset = UsuarioPersonalizado.objects.filter(is_active = True, groups__name = 'Alumno' )
+    serializer_class = UsuarioPublicSerializer
+    permission_classes=[PermissionEmpleado]
+
+#GET Empleado
 class UserEmpleadoGetViewSets(viewsets.ReadOnlyModelViewSet):
     queryset = UsuarioPersonalizado.objects.filter(is_active = True, groups__name = 'Empleado' )
     serializer_class = UsuarioPublicSerializer
+    permission_classes=[PermissionsJefe]
+
+#GET Jefe
+class UserJefeGetViewSets(viewsets.ReadOnlyModelViewSet):
+    queryset = UsuarioPersonalizado.objects.filter(is_active = True, groups__name = 'Jefe' )
+    serializer_class = UsuarioPublicSerializer
+    permission_classes=[PermissionsJefe]
 
 
-
-
-#Employee
-
-
-#User
 

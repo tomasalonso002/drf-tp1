@@ -13,39 +13,43 @@ class UsuarioPublicSerializer(serializers.ModelSerializer):
             'dni',
             'email',
             'fecha_nacimiento',
-            'password',
-            'rol',
             'groups'
         ]
         read_only_fields=['first_name','last_name', 'dni', 'fecha_nacimiento']
 
-
-
 class UsuarioSerializer(serializers.ModelSerializer):
-
+    
     rol = serializers.ChoiceField(
-        choices=['Alumono','Empleado','Jefe'],
-        write_only = True
+        choices=['Alumno', 'Empleado', 'Jefe'],
+        write_only=True
     )
-
+    
     class Meta:
         model = UsuarioPersonalizado
-        fields = ['id', 'username','last_name','first_name','password','telefono','email','dni','rol']
+        fields = [
+            'id',
+            'username',
+            'last_name',
+            'first_name',
+            'password',
+            'telefono',
+            'email',
+            'dni',
+            'fecha_nacimiento',
+            'rol',
+            'groups'
+        ]
         extra_kwargs = {
             'password': {'write_only': True}
         }
-
-        def create(self, validated_data):
-            rol = validated_data.pop('rol')
-
-            usuario = UsuarioPersonalizado.objects.create_user(
-                **validated_data
-            )
-
-            grupo = Group.objects.get(name=rol)
-            usuario.groups.add(grupo)
-
-            return usuario
-
+        
+    def create(self, validated_data):
+        rol = validated_data.pop('rol')
+        usuario = UsuarioPersonalizado.objects.create_user(
+            **validated_data
+        )
+        grupo = Group.objects.get(name=rol)
+        usuario.groups.add(grupo)
+        return usuario
 
         
