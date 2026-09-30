@@ -18,7 +18,7 @@ class UsuarioPublicSerializer(serializers.ModelSerializer):
         read_only_fields=['first_name','last_name', 'dni', 'fecha_nacimiento']
 
 class UsuarioSerializer(serializers.ModelSerializer):
-    
+
     rol = serializers.ChoiceField(
         choices=['Alumno', 'Empleado', 'Jefe'],
         write_only=True
@@ -42,6 +42,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password': {'write_only': True}
         }
+        
         
     def create(self, validated_data):
         rol = validated_data.pop('rol')
